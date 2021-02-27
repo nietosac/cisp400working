@@ -4,13 +4,15 @@
 
 // Purpose  produce a grading program for that calculates the GPA 
 // for a set of grades.  It will display the inforamtion.  The Program 
-// includes filters fo r  the entries as well as display it in a certain 
-// format.
+// includes filters for  the entries as well as display it in a certain 
+// format.  This is the AD assignement, thus the students character array is added 
+// as as additional outputs are necessary.
 
 #include <array>    // used for holding the courseGrades, countGrades
 #include <string>   // used for courseName 
 #include <iostream> // May need for input and output
 #include <iomanip>  // may need for stream manipulation
+#include <cstring>  // used for centering calculation of cstring
 
 #include "GradeBook.h" //include definition of class GradeBook
 
@@ -21,11 +23,13 @@ GradeBook::GradeBook(string name)
 // initializes class members  instead of function initializeData
 :   letterGrades{}, 
     studentName{},
+    studentNameChar{},
+    studentNameCount{},
     countGrades{},
     letterGradesCount{} 
     // note no comma at end of initialization
 
-// execution of the constructor body
+// execution of the constructor bstudentNameCountody
 {
     cout << "The GradeBook Constructor is called" << endl;  //as required by assigment
 
@@ -69,14 +73,19 @@ void GradeBook::displayMessage() const{
 
     }// ends displayMessage
 
-//function inputGrades
-    // input arbitrary number of grades from user; updates grade counter
-void GradeBook::inputGrades(){
+//function inputData
+// input arbitrary number of grades from user; updates grade counter
+void GradeBook::inputData(){
 
     char grade; //  grade variable to be entered by user
+      cout << "\tEnter the letter grades," << endl // prompt to user
+         << "\t-->     Or Enter the EOF character to end input.\n" 
+          << "\tUse Ctl + D, or Ctl + Z" << endl; 
+
+
 
 //loop until user enters end of file key sequence
-    while ((grade =cin.get()) !=EOF){
+    while ((grade=cin.get()) !=EOF){  
                     
         if(grade != '\n'){                  // Need to check if Enter key is not capture under the default
          
@@ -121,9 +130,6 @@ void GradeBook::inputGrades(){
             break; // this is not necessary but keep to be consistent with assignment
         }//end switch statment 
 
-    cout << "\tEnter the letter grades," << endl // prompt to user
-         << "\t-->     Or Enter the EOF character to end input.\n" 
-          << "\tUse Ctl + D, or Ctl + Z" << endl; 
 
 
         } // Ends the if then for the "\n" key
@@ -138,25 +144,60 @@ void GradeBook::inputGrades(){
         // call inputStudentName() after a proper grade is entered
           
               inputStudentName(letterGradesCount); // Call method 
+                studentNameCount +=1;
                 letterGradesCount += 1;             // increment after successful student entered 
         } //ends the valid check
 
-
+    cout << "\tEnter the letter grades," << endl // prompt to user
+         << "\t-->     Or Enter the EOF character to end input.\n" 
+          << "\tUse Ctl + D, or Ctl + Z" << endl; 
+           
     }//end while loop
-}//ends inputGrades
+    if( grade ==EOF && letterGradesCount ==0){
+        cout << setw(80) <<"There is no data entered.\n\n" << endl;
+    }
+}//ends inputData
 
 //function inputStudentName
-void GradeBook::inputStudentName(size_t StudentIndex){
-        string studentName; // local varibale of student name
+void GradeBook::inputStudentName(int StudentIndex){
+        std::string studentNameT; // local varibale of student name
        
         cout << "Enter a student name."<< endl; //prompt the user for a student name 
-       //std::getline(std::cin, name);
-       std::getline(cin, studentName); // get information entered by user ? Need to check entry?
-cout << "Entered a student name."<< endl;
-//        studentName[studentID] = 
-
+        cin.ignore();            // To make the cin to cooperate perahps I should just switch to getline for all entries
+        cin.getline(studentNameChar[StudentIndex], 20);
+        //studentName[StudentIndex] = studentNameChar;
+        cout << "Finished a student name."<< endl;
 }//ends inputStudentName
 
+
+//function displayAllStudentsandGrades
+void GradeBook::displayAllStudentsandGrades(){
+    cout << "The data entered is listed at the following:" << endl;                         // first header line
+    cout << "Index" <<setw(15) <<"Student Name" <<setw(12) << "Grade" 
+        << setw(10) << "Index" <<setw(15) <<"Student Name" <<setw(12) << "Grade" << endl;   // Second header line
+
+   // cout << (unsigned)strlen(studentNameChar[0]) << endl;
+
+        for (size_t j{0}; j < studentNameCount-1; j +=2){
+            
+            int bufferV = ((unsigned)(strlen(studentNameChar[j])/2));
+            int bufferV2 = ((unsigned)(strlen(studentNameChar[j+1])/2));
+
+            cout << setw(3) << j << setw((13 + bufferV)) << studentNameChar[j] << setw(15 -bufferV) << letterGrades[j] 
+                 << setw(10) << j+1 << setw((13 + bufferV2)) << studentNameChar[j+1] << setw(10 -bufferV2) << letterGrades[j+1] << endl;
+
+                } // end for
+// When the studentNameCount is odd number need to add one more
+if (studentNameCount != 2*(studentNameCount/2)){  // when not even then 
+            int bufferV = ((unsigned)(strlen(studentNameChar[studentNameCount-1])/2));
+
+            cout << setw(3) << studentNameCount-1 << setw((15 - bufferV)) 
+                << studentNameChar[studentNameCount-1] << setw(10) << letterGrades[studentNameCount-1] << endl;
+
+}
+
+cout << endl;                                           // To match intended output   
+} // ends displayAllStudentsandGrades
 
 //function displayGradeReport
 //display a report based ont he grades entered by user
