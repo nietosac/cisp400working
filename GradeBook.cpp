@@ -19,7 +19,8 @@ using namespace std;
 //constructor Gradebook
 GradeBook::GradeBook(string name)
 // initializes class members  instead of function initializeData
-:   letterGrades{},
+:   letterGrades{}, 
+    studentName{},
     countGrades{},
     letterGradesCount{} 
     // note no comma at end of initialization
@@ -74,14 +75,9 @@ void GradeBook::inputGrades(){
 
     char grade; //  grade variable to be entered by user
 
-    cout << "\tEnter the letter grades," << endl // prompt to user
-         << "\t-->     Or Enter the EOF character to end input.\n" 
-          << "\tUse Ctl + D, or Ctl + Z" << endl; 
-
 //loop until user enters end of file key sequence
     while ((grade =cin.get()) !=EOF){
-        
-        
+                    
         if(grade != '\n'){                  // Need to check if Enter key is not capture under the default
          
     //use switch to count the grade entered
@@ -120,15 +116,46 @@ void GradeBook::inputGrades(){
         default:                                // catch all other characters
         cout << "XXXX An incorrect letter grade entered. XXXX"
         << "\n\"" << grade << "\"" << " is not a a proper letter grade." << endl;
-            letterGrades[letterGradesCount] = grade;  // places grade into the array that keeps all entries
-            countGrades[5] += 1;                   // increments counter of entries of other entered values
+            //letterGrades[letterGradesCount] = grade;  // places grade into the array that keeps all entries
+            //countGrades[5] += 1;                   // increments counter of entries of other entered values
             break; // this is not necessary but keep to be consistent with assignment
         }//end switch statment 
-        letterGradesCount += 1;
+
+    cout << "\tEnter the letter grades," << endl // prompt to user
+         << "\t-->     Or Enter the EOF character to end input.\n" 
+          << "\tUse Ctl + D, or Ctl + Z" << endl; 
+
+
         } // Ends the if then for the "\n" key
+
+// Check if grade was valid (A-F)
+        if (letterGrades[letterGradesCount] == 'A' ||
+        letterGrades[letterGradesCount] == 'B' ||
+        letterGrades[letterGradesCount] == 'C' ||
+        letterGrades[letterGradesCount] == 'D' ||
+        letterGrades[letterGradesCount] == 'F'         ){
+        
+        // call inputStudentName() after a proper grade is entered
+          
+              inputStudentName(letterGradesCount); // Call method 
+                letterGradesCount += 1;             // increment after successful student entered 
+        } //ends the valid check
+
+
     }//end while loop
 }//ends inputGrades
 
+//function inputStudentName
+void GradeBook::inputStudentName(size_t StudentIndex){
+        string studentName; // local varibale of student name
+       
+        cout << "Enter a student name."<< endl; //prompt the user for a student name 
+       //std::getline(std::cin, name);
+       std::getline(cin, studentName); // get information entered by user ? Need to check entry?
+cout << "Entered a student name."<< endl;
+//        studentName[studentID] = 
+
+}//ends inputStudentName
 
 
 //function displayGradeReport
