@@ -4,7 +4,7 @@
 
 // Purpose  produce a grading program for that calculates the GPA 
 // for a set of grades.  It will display the inforamtion.  The Program 
-// includes filters for the entries as well as display it in a certain 
+// includes filters fo r  the entries as well as display it in a certain 
 // format.
 
 #include <array>    // used for holding the courseGrades, countGrades

@@ -24,8 +24,19 @@ public:
    void setCourseName( std::string ); // set the course name
    std::string getCourseName() const; // retrieve the course name
    void displayMessage() const; // display a welcome message
+
+   void initializeData(); //sets the initial values 
+   void inputData(); //input arbitrary number of students
+   
    void inputGrades(); // input arbitrary number of grades from user
+   void inputStudentName(std::size_t); // sends index to get input of Student Name
    void displayGradeReport();  // display report based on user input
+
+   void displayGrade(); // display grade based on user input
+   void displayAllStudentsandGrades();// display all students names and respective grades
+
+   void displayStudentname();// display of Student name
+
    void displayInputs() const; // display report of entered user input
    double calculateGrade(); // calculates the GPA display report of entered user input
    ~GradeBook(); // removes the object from memory
@@ -34,9 +45,12 @@ public:
 private:
    std::string courseName; // course name for this GradeBook
    std::array<char, 100 > letterGrades; // stores up to 100 grades in the array
+   
+   std::array<char, 100 > studentName; // stores up to 100 student names
+   
    std::array<int, 6 > countGrades;  // stores the number of each letter grade 
                                     // as well as how many error input
-   std::size_t letterGradesCount =0; //  Keep a count of number of grades entered
+   std::size_t letterGradesCount = 0; //  Keep a count of number of grades entered
 
 }; // end class GradeBook  
 #endif
